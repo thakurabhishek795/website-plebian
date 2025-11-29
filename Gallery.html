@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | Plebian Collective</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:ital,wght@0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Tailwind Config -->
+    <script src="js/tailwind.config.js"></script>
+
+    <style>
+        /* Lightbox styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .lightbox-close:hover {
+            color: #0ea5e9;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            padding: 20px;
+            user-select: none;
+            transition: 0.3s;
+        }
+
+        .lightbox-nav:hover {
+            color: #0ea5e9;
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+    </style>
+</head>
+
+<body class="font-sans text-gray-700 bg-gray-50 antialiased">
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md fixed w-full z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <!-- Logo -->
+                    <a href="Main.html" class="flex-shrink-0 flex items-center gap-2">
+                        <img src="images/logo.png" alt="Plebian Collective Logo" class="w-12 h-12 object-contain">
+                        <span class="font-serif font-bold text-2xl text-brand-900">Plebian Collective</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="Main.html#home" class="text-gray-600 hover:text-brand-600 font-medium transition">Home</a>
+                    <a href="Main.html#about" class="text-gray-600 hover:text-brand-600 font-medium transition">About
+                        Us</a>
+                    <a href="Main.html#programs" class="text-gray-600 hover:text-brand-600 font-medium transition">Our
+                        Programs</a>
+                    <a href="Main.html#impact"
+                        class="text-gray-600 hover:text-brand-600 font-medium transition">Impact</a>
+                    <a href="Gallery.html"
+                        class="text-brand-600 hover:text-brand-600 font-medium transition border-b-2 border-brand-600">Gallery</a>
+                    <a href="Donation.html"
+                        class="px-5 py-2.5 bg-brand-600 text-white font-semibold rounded-full hover:bg-brand-700 transition shadow-lg shadow-brand-500/30">
+                        Donate Now
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center md:hidden">
+                    <button onclick="toggleMenu()" class="text-gray-600 hover:text-brand-600 focus:outline-none"
+                        aria-label="Toggle menu">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="Main.html#home"
+                    class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">Home</a>
+                <a href="Main.html#about"
+                    class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">About
+                    Us</a>
+                <a href="Main.html#programs"
+                    class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">Our
+                    Programs</a>
+                <a href="Gallery.html"
+                    class="block px-3 py-2 text-base font-medium text-brand-600 font-bold bg-brand-50 rounded-md">Gallery</a>
+                <a href="Donation.html"
+                    class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">Donate
+                    Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Gallery Hero -->
+    <section class="relative bg-brand-900 py-32 text-center text-white overflow-hidden mt-20">
+        <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+        </div>
+        <div class="relative z-10 max-w-4xl mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-serif font-bold mb-6">Our Work in Pictures</h1>
+            <p class="text-xl text-brand-100 max-w-2xl mx-auto">
+                Explore the visual journey of our initiatives and the impact we've made in communities across the
+                region.
+            </p>
+        </div>
+    </section>
+
+    <!-- Gallery Grid -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <!-- Category Filter -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button
+                    class="filter-btn active px-6 py-2 bg-brand-600 text-white rounded-full font-semibold transition hover:bg-brand-700"
+                    data-category="all">All</button>
+                <button
+                    class="filter-btn px-6 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold transition hover:bg-brand-600 hover:text-white"
+                    data-category="community">Community</button>
+                <button
+                    class="filter-btn px-6 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold transition hover:bg-brand-600 hover:text-white"
+                    data-category="education">Education</button>
+                <button
+                    class="filter-btn px-6 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold transition hover:bg-brand-600 hover:text-white"
+                    data-category="environment">Environment</button>
+                <button
+                    class="filter-btn px-6 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold transition hover:bg-brand-600 hover:text-white"
+                    data-category="empowerment">Empowerment</button>
+                <button
+                    class="filter-btn px-6 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold transition hover:bg-brand-600 hover:text-white"
+                    data-category="medical">Medical</button>
+            </div>
+
+            <!-- Gallery Items -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Image 1 -->
+                <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg cursor-pointer"
+                    data-category="community" data-index="0">
+                    <img src="images/gallery/gallery-1.jpg" alt="Community Outreach"
+                        class="w-full h-64 object-cover transition duration-500 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                        <div class="text-center text-white">
+                            <i class="fa-solid fa-search-plus text-3xl mb-2"></i>
+                            <p class="font-bold">Community Outreach</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 2 -->
+                <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg cursor-pointer"
+                    data-category="education" data-index="1">
+                    <img src="images/gallery/gallery-2.jpg" alt="Child Education"
+                        class="w-full h-64 object-cover transition duration-500 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                        <div class="text-center text-white">
+                            <i class="fa-solid fa-search-plus text-3xl mb-2"></i>
+                            <p class="font-bold">Child Education</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 3 -->
+                <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg cursor-pointer"
+                    data-category="environment" data-index="2">
+                    <img src="images/gallery/gallery-3.jpg" alt="Tree Plantation"
+                        class="w-full h-64 object-cover transition duration-500 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                        <div class="text-center text-white">
+                            <i class="fa-solid fa-search-plus text-3xl mb-2"></i>
+                            <p class="font-bold">Tree Plantation</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 4 -->
+                <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg cursor-pointer"
+                    data-category="empowerment" data-index="3">
+                    <img src="images/gallery/gallery-4.jpg" alt="Women Empowerment"
+                        class="w-full h-64 object-cover transition duration-500 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                        <div class="text-center text-white">
+                            <i class="fa-solid fa-search-plus text-3xl mb-2"></i>
+                            <p class="font-bold">Women Empowerment</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 5 -->
+                <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg cursor-pointer"
+                    data-category="medical" data-index="4">
+                    <img src="images/gallery/gallery-5.jpg" alt="Medical Camp"
+                        class="w-full h-64 object-cover transition duration-500 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                        <div class="text-center text-white">
+                            <i class="fa-solid fa-search-plus text-3xl mb-2"></i>
+                            <p class="font-bold">Medical Camp</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <span class="lightbox-nav lightbox-prev" onclick="changeImage(-1)">&#10094;</span>
+        <img id="lightbox-img" src="" alt="Gallery Image">
+        <span class="lightbox-nav lightbox-next" onclick="changeImage(1)">&#10095;</span>
+    </div>
+
+    <!-- Footer / Contact -->
+    <footer id="contact" class="bg-gray-900 text-gray-300 py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-12">
+
+                <!-- About Column -->
+                <div>
+                    <div class="flex items-center gap-2 mb-4 text-white">
+                        <img src="images/logo.png" alt="Logo" class="w-10 h-10 object-contain">
+                        <span class="font-serif font-bold text-xl">Plebian Collective</span>
+                    </div>
+                    <p class="text-sm leading-relaxed mb-4">
+                        A registered non-profit collective dedicated to the promotion of commerce, art, science, and
+                        social welfare. We bridge the gap between resources and those in need.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-white transition" aria-label="Facebook"><i
+                                class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="hover:text-white transition" aria-label="Twitter"><i
+                                class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="hover:text-white transition" aria-label="LinkedIn"><i
+                                class="fa-brands fa-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="Main.html#about" class="hover:text-brand-400 transition">About Us</a></li>
+                        <li><a href="Main.html#programs" class="hover:text-brand-400 transition">Skill Development</a>
+                        </li>
+                        <li><a href="#" class="hover:text-brand-400 transition">Legal Aid</a></li>
+                        <li><a href="#" class="hover:text-brand-400 transition">Environmental Reports</a></li>
+                        <li><a href="Donation.html" class="hover:text-brand-400 transition">Donate</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Form (Visual Only) -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Get In Touch</h3>
+                    <form onsubmit="event.preventDefault(); alert('Thank you for connecting! This is a demo site.');"
+                        class="space-y-3">
+                        <input type="text" placeholder="Your Name"
+                            class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:border-brand-500 text-sm">
+                        <input type="email" placeholder="Your Email"
+                            class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:border-brand-500 text-sm">
+                        <textarea rows="2" placeholder="Message"
+                            class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:border-brand-500 text-sm"></textarea>
+                        <button type="submit"
+                            class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-2 rounded transition text-sm">Send
+                            Message</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-xs text-gray-500">
+                <p>&copy; 2023 Plebian Collective. All Rights Reserved.</p>
+                <p class="mt-2">Licensed under Section 8 of the Companies Act.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom JS -->
+    <script src="js/script.js" defer></script>
+
+    <script>
+        // Gallery filtering
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-brand-600', 'text-white');
+                    b.classList.add('bg-gray-200', 'text-gray-700');
+                });
+                btn.classList.add('active', 'bg-brand-600', 'text-white');
+                btn.classList.remove('bg-gray-200', 'text-gray-700');
+
+                const category = btn.dataset.category;
+
+                // Filter items
+                galleryItems.forEach(item => {
+                    if (category === 'all' || item.dataset.category === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        let currentImageIndex = 0;
+        const images = Array.from(document.querySelectorAll('.gallery-item img'));
+
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentImageIndex = parseInt(item.dataset.index);
+                openLightbox(images[currentImageIndex].src);
+            });
+        });
+
+        function openLightbox(src) {
+            lightboxImg.src = src;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) currentImageIndex = images.length - 1;
+            if (currentImageIndex >= images.length) currentImageIndex = 0;
+            lightboxImg.src = images[currentImageIndex].src;
+        }
+
+        // Close lightbox on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') changeImage(-1);
+            if (e.key === 'ArrowRight') changeImage(1);
+        });
+
+        // Close lightbox on background click
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+    </script>
+</body>
+
+</html>

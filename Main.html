@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plebian Collective | Empowering Society</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:ital,wght@0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Tailwind Config -->
+    <script src="js/tailwind.config.js"></script>
+</head>
+
+<body class="font-sans text-gray-700 bg-gray-50 antialiased">
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md fixed w-full z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <!-- Logo -->
+                    <a href="#" class="flex-shrink-0 flex items-center gap-2">
+                        <img src="images/logo.png" alt="Plebian Collective Logo" class="w-12 h-12 object-contain">
+                        <span class="font-serif font-bold text-2xl text-brand-900">Plebian Collective</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-gray-600 hover:text-brand-600 font-medium transition">Home</a>
+                    <a href="#about" class="text-gray-600 hover:text-brand-600 font-medium transition">About Us</a>
+                    <a href="#programs" class="text-gray-600 hover:text-brand-600 font-medium transition">Our
+                        Programs</a>
+                    <a href="#impact" class="text-gray-600 hover:text-brand-600 font-medium transition">Impact</a>
+                    <a href="Gallery.html" class="text-gray-600 hover:text-brand-600 font-medium transition">Gallery</a>
+                    <a href="Donation.html"
+                        class="px-5 py-2.5 bg-brand-600 text-white font-semibold rounded-full hover:bg-brand-700 transition shadow-lg shadow-brand-500/30">
+                        Donate Now
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center md:hidden">
+                    <button onclick="toggleMenu()" class="text-gray-600 hover:text-brand-600 focus:outline-none"
+                        aria-label="Toggle menu">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home"
+                    class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">Home</a>
+                <a href="#about"
+                    class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">About
+                    Us</a>
+                <a href="#programs"
+                    class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">Our
+                    Programs</a>
+                <a href="Donation.html"
+                    class="block px-3 py-2 text-base font-medium text-brand-600 font-bold bg-brand-50 rounded-md">Donate
+                    Now</a>
+                <a href="Gallery.html"
+                    class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">Gallery</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home"
+        class="relative hero-pattern h-screen min-h-[600px] flex items-center justify-center text-center px-4">
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <span
+                class="inline-block py-1 px-3 rounded-full bg-accent-500/20 text-accent-500 border border-accent-500 font-semibold text-sm mb-6 backdrop-blur-sm uppercase tracking-wider">
+                Non-Profit Collective
+            </span>
+            <h1 class="text-4xl md:text-6xl font-serif font-bold text-white mb-6 leading-tight">
+                Empowering Communities, Building a Shared Future
+            </h1>
+            <p class="text-xl text-gray-200 mb-10 max-w-2xl mx-auto font-light">
+                We are a collective dedicated to holistic societal betterment through employment, education, legal
+                support, and environmental stewardship.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#programs"
+                    class="px-8 py-4 bg-brand-600 text-white font-bold rounded-full hover:bg-brand-700 transition transform hover:-translate-y-1 shadow-lg shadow-brand-600/50">
+                    Explore Our Work
+                </a>
+                <a href="#contact"
+                    class="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-full hover:bg-white hover:text-brand-900 transition">
+                    Get Involved
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Down Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-white/50">
+            <i class="fa-solid fa-chevron-down text-2xl"></i>
+        </div>
+    </section>
+
+    <!-- Mission Statement -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-brand-600 font-bold tracking-wide uppercase text-sm mb-2">Our Mission</h2>
+                <h3 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-6">Advocating for Societal
+                    Betterment</h3>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    The Plebian Collective's primary purpose is to work towards the betterment of society by fostering
+                    collective action and empowering individuals. We believe in a holistic approach that integrates
+                    economic growth, environmental stewardship, and social justice.
+                </p>
+            </div>
+
+            <!-- Operational Pillars (Ancillary Objects) -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 hover:shadow-lg transition">
+                    <div
+                        class="w-12 h-12 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mb-4 text-xl">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 mb-2">Government Collaboration</h4>
+                    <p class="text-sm text-gray-600">We partner with local and national government bodies to implement
+                        development programs effectively and compliantly.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 hover:shadow-lg transition">
+                    <div
+                        class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4 text-xl">
+                        <i class="fa-solid fa-file-contract"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 mb-2">Transparency & Compliance</h4>
+                    <p class="text-sm text-gray-600">We adhere to strict accounting, audit, and legal standards to
+                        ensure every donation reaches its intended cause.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 hover:shadow-lg transition">
+                    <div
+                        class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-4 text-xl">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 mb-2">Research & Innovation</h4>
+                    <p class="text-sm text-gray-600">We conduct research and develop intellectual property to create
+                        sustainable models for community development.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Objectives / Programs Section -->
+    <section id="programs" class="py-20 bg-brand-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold text-brand-900">Our Key Focus Areas</h2>
+                <div class="w-24 h-1 bg-accent-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- 1. Employment -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition group">
+                    <div class="h-48 bg-gray-200 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=800"
+                            alt="Employment"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md text-brand-600">
+                            <i class="fa-solid fa-briefcase text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Employment & Entrepreneurship</h3>
+                        <p class="text-gray-600 text-sm mb-4">Enhancing employment opportunities through skill audits
+                            and supporting grassroots entrepreneurship initiatives.</p>
+                        <ul class="text-xs text-gray-500 space-y-1 list-disc pl-4">
+                            <li>Job Fairs & Placement</li>
+                            <li>Small Business Support</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 2. Environment -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition group">
+                    <div class="h-48 bg-gray-200 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=800"
+                            alt="Environment"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md text-green-600">
+                            <i class="fa-solid fa-leaf text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Environmental Conservation</h3>
+                        <p class="text-gray-600 text-sm mb-4">Raising awareness, developing sustainable technologies,
+                            and conducting research for a greener planet.</p>
+                        <ul class="text-xs text-gray-500 space-y-1 list-disc pl-4">
+                            <li>Sustainable Designs</li>
+                            <li>Conservation Drives</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 3. Skill Development -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition group">
+                    <div class="h-48 bg-gray-200 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800"
+                            alt="Skill Development"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md text-purple-600">
+                            <i class="fa-solid fa-microchip text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">21st Century Skills</h3>
+                        <p class="text-gray-600 text-sm mb-4">Bridging the digital divide through hands-on training in
+                            electronics, maker spaces, and digital literacy.</p>
+                        <ul class="text-xs text-gray-500 space-y-1 list-disc pl-4">
+                            <li>Digital Literacy Programs</li>
+                            <li>Maker Space Initiatives</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 4. Old Age Support -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition group">
+                    <div class="h-48 bg-gray-200 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80&w=800"
+                            alt="Elderly Care"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md text-red-500">
+                            <i class="fa-solid fa-hands-holding-child text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Elderly Rehabilitation</h3>
+                        <p class="text-gray-600 text-sm mb-4">Providing comprehensive support including healthcare,
+                            reemployment, and emotional well-being for the elderly.</p>
+                        <ul class="text-xs text-gray-500 space-y-1 list-disc pl-4">
+                            <li>Old Age Homes</li>
+                            <li>Healthcare & Companionship</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 5. Legal Aid -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition group">
+                    <div class="h-48 bg-gray-200 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=800"
+                            alt="Legal Aid"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md text-gray-800">
+                            <i class="fa-solid fa-scale-balanced text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Legal Aid & Advocacy</h3>
+                        <p class="text-gray-600 text-sm mb-4">Offering legal guidance and advocacy to individuals and
+                            communities, especially those in vulnerable situations.</p>
+                        <ul class="text-xs text-gray-500 space-y-1 list-disc pl-4">
+                            <li>Pro Bono Counseling</li>
+                            <li>Rights Awareness</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 6. Relief Work -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition group">
+                    <div class="h-48 bg-gray-200 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&q=80&w=800"
+                            alt="Relief Work"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md text-yellow-600">
+                            <i class="fa-solid fa-heart-pulse text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Social Relief Work</h3>
+                        <p class="text-gray-600 text-sm mb-4">Providing medical, economical, and social relief to the
+                            downtrodden and advancing charitable objects.</p>
+                        <ul class="text-xs text-gray-500 space-y-1 list-disc pl-4">
+                            <li>Disaster Management</li>
+                            <li>Poverty Alleviation</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action / Impact Stats -->
+    <section id="impact" class="py-16 bg-brand-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+        </div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10 text-center">
+            <h2 class="text-3xl font-bold mb-12">Making a Real Difference</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="text-4xl font-bold text-accent-500 mb-2">50+</div>
+                    <div class="text-brand-100">Projects Completed</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-accent-500 mb-2">1,200+</div>
+                    <div class="text-brand-100">Students Skilled</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-accent-500 mb-2">500+</div>
+                    <div class="text-brand-100">Elderly Assisted</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-accent-500 mb-2">10+</div>
+                    <div class="text-brand-100">Govt Partners</div>
+                </div>
+            </div>
+            <div class="mt-12">
+                <a href="#contact"
+                    class="inline-block px-8 py-3 bg-accent-600 hover:bg-accent-700 text-white font-bold rounded-full transition shadow-lg">
+                    Join Our Mission
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Gallery -->
+    <section id="gallery" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900">Our Work in Action</h2>
+                <div class="w-24 h-1 bg-brand-500 mx-auto mt-4 rounded-full"></div>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+                    Visual stories from our recent camps, workshops, and community drives.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[200px]">
+                <!-- Large item -->
+                <div
+                    class="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
+                    <img src="images/gallery/gallery-1.jpg" alt="Charity Work"
+                        class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-6">
+                        <span class="text-white font-bold text-lg">Community Outreach</span>
+                    </div>
+                </div>
+
+                <!-- Standard items -->
+                <div class="relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
+                    <img src="images/gallery/gallery-2.jpg" alt="Education"
+                        class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-6">
+                        <span class="text-white font-bold text-lg">Child Education</span>
+                    </div>
+                </div>
+
+                <div class="relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
+                    <img src="images/gallery/gallery-3.jpg" alt="Environment"
+                        class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-6">
+                        <span class="text-white font-bold text-lg">Tree Plantation</span>
+                    </div>
+                </div>
+
+                <!-- Wide item -->
+                <div class="md:col-span-2 relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
+                    <img src="images/gallery/gallery-4.jpg" alt="Women Empowerment"
+                        class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-6">
+                        <span class="text-white font-bold text-lg">Women Empowerment</span>
+                    </div>
+                </div>
+
+                <!-- Standard item -->
+                <div class="relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
+                    <img src="images/gallery/gallery-5.jpg" alt="Medical Camp"
+                        class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-6">
+                        <span class="text-white font-bold text-lg">Medical Camp</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer id="contact" class="bg-gray-900 text-gray-300 py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-12">
+
+                <!-- About Column -->
+                <div>
+                    <div class="flex items-center gap-2 mb-4 text-white">
+                        <img src="images/logo.png" alt="Logo" class="w-10 h-10 object-contain">
+                        <span class="font-serif font-bold text-xl">Plebian Collective</span>
+                    </div>
+                    <p class="text-sm leading-relaxed mb-4">
+                        A registered non-profit collective dedicated to the promotion of commerce, art, science, and
+                        social welfare. We bridge the gap between resources and those in need.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-white transition" aria-label="Facebook"><i
+                                class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="hover:text-white transition" aria-label="Twitter"><i
+                                class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="hover:text-white transition" aria-label="LinkedIn"><i
+                                class="fa-brands fa-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#about" class="hover:text-brand-400 transition">About Us</a></li>
+                        <li><a href="#programs" class="hover:text-brand-400 transition">Skill Development</a></li>
+                        <li><a href="#" class="hover:text-brand-400 transition">Legal Aid</a></li>
+                        <li><a href="#" class="hover:text-brand-400 transition">Environmental Reports</a></li>
+                        <li><a href="Donation.html" class="hover:text-brand-400 transition">Donate</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Form (Visual Only) -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Get In Touch</h3>
+                    <form onsubmit="event.preventDefault(); alert('Thank you for connecting! This is a demo site.');"
+                        class="space-y-3">
+                        <input type="text" placeholder="Your Name"
+                            class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:border-brand-500 text-sm">
+                        <input type="email" placeholder="Your Email"
+                            class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:border-brand-500 text-sm">
+                        <textarea rows="2" placeholder="Message"
+                            class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:border-brand-500 text-sm"></textarea>
+                        <button type="submit"
+                            class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-2 rounded transition text-sm">Send
+                            Message</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-xs text-gray-500">
+                <p>&copy; 2023 Plebian Collective. All Rights Reserved.</p>
+                <p class="mt-2">Licensed under Section 8 of the Companies Act.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom JS -->
+    <script src="js/script.js" defer></script>
+</body>
+
+</html>

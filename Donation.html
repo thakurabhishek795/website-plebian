@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate | Plebian Collective</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:ital,wght@0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Tailwind Config -->
+    <script src="js/tailwind.config.js"></script>
+</head>
+
+<body class="font-sans text-gray-700 bg-gray-50 antialiased">
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md fixed w-full z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <!-- Logo -->
+                    <a href="Main.html" class="flex-shrink-0 flex items-center gap-2">
+                        <img src="images/logo.png" alt="Plebian Collective Logo" class="w-12 h-12 object-contain">
+                        <span class="font-serif font-bold text-2xl text-brand-900">Plebian Collective</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="Main.html#home" class="text-gray-600 hover:text-brand-600 font-medium transition">Home</a>
+                    <a href="Main.html#about" class="text-gray-600 hover:text-brand-600 font-medium transition">About
+                        Us</a>
+                    <a href="Main.html#programs" class="text-gray-600 hover:text-brand-600 font-medium transition">Our
+                        Programs</a>
+                    <a href="Main.html#impact"
+                        class="text-gray-600 hover:text-brand-600 font-medium transition">Impact</a>
+                    <a href="Main.html#gallery"
+                        class="text-gray-600 hover:text-brand-600 font-medium transition">Gallery</a>
+                    <a href="#"
+                        class="px-5 py-2.5 bg-brand-600 text-white font-semibold rounded-full hover:bg-brand-700 transition shadow-lg shadow-brand-500/30">
+                        Donate Now
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center md:hidden">
+                    <button onclick="toggleMenu()" class="text-gray-600 hover:text-brand-600 focus:outline-none"
+                        aria-label="Toggle menu">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="Main.html#home"
+                    class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">Home</a>
+                <a href="Main.html#about"
+                    class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">About
+                    Us</a>
+                <a href="Main.html#programs"
+                    class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">Our
+                    Programs</a>
+                <a href="#"
+                    class="block px-3 py-2 text-base font-medium text-brand-600 font-bold bg-brand-50 rounded-md">Donate
+                    Now</a>
+                <a href="Main.html#gallery"
+                    class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">Gallery</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Donation Hero -->
+    <section class="relative bg-brand-900 py-32 text-center text-white overflow-hidden">
+        <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+        </div>
+        <div class="relative z-10 max-w-4xl mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-serif font-bold mb-6">Support Our Cause</h1>
+            <p class="text-xl text-brand-100 max-w-2xl mx-auto">
+                Your contribution directly impacts the lives of the underprivileged, providing education, healthcare,
+                and legal aid.
+            </p>
+        </div>
+    </section>
+
+    <!-- Donation Form Section -->
+    <section class="py-16 bg-gray-50 -mt-10 relative z-20">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row">
+
+                <!-- Impact Info Sidebar -->
+                <div class="md:w-1/3 bg-brand-600 text-white p-8 md:p-10 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-2xl font-serif font-bold mb-6">Why Donate?</h3>
+                        <ul class="space-y-6">
+                            <li class="flex items-start gap-3">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa-solid fa-graduation-cap text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Educate a Child</h4>
+                                    <p class="text-xs text-brand-100 mt-1">₹1,000 provides books and stationery for one
+                                        child for a year.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa-solid fa-heart-pulse text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Medical Aid</h4>
+                                    <p class="text-xs text-brand-100 mt-1">₹2,500 sponsors a health checkup camp for 50
+                                        elderly people.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa-solid fa-seedling text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Plant Trees</h4>
+                                    <p class="text-xs text-brand-100 mt-1">₹500 helps us plant and maintain 10 saplings.
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-10 pt-6 border-t border-white/20">
+                        <p class="text-xs opacity-80">
+                            <i class="fa-solid fa-shield-halved mr-1"></i> Secure Payment. All donations are tax-exempt
+                            under Section 80G.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Donation Form -->
+                <div class="md:w-2/3 p-8 md:p-10">
+                    <form onsubmit="event.preventDefault(); alert('Redirecting to Payment Gateway...');">
+
+                        <!-- Donation Amount -->
+                        <div class="mb-8">
+                            <label class="block text-sm font-bold text-gray-700 mb-3">Select Amount (INR)</label>
+                            <div class="grid grid-cols-3 gap-4 mb-4">
+                                <button type="button"
+                                    class="py-3 border-2 border-brand-100 rounded-lg text-brand-600 font-bold hover:border-brand-500 hover:bg-brand-50 focus:border-brand-600 focus:bg-brand-50 transition">₹
+                                    500</button>
+                                <button type="button"
+                                    class="py-3 border-2 border-brand-600 bg-brand-50 rounded-lg text-brand-600 font-bold">₹
+                                    1,000</button>
+                                <button type="button"
+                                    class="py-3 border-2 border-brand-100 rounded-lg text-brand-600 font-bold hover:border-brand-500 hover:bg-brand-50 focus:border-brand-600 focus:bg-brand-50 transition">₹
+                                    2,500</button>
+                            </div>
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">₹</span>
+                                <input type="number" placeholder="Enter Custom Amount"
+                                    class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition">
+                            </div>
+                        </div>
+
+                        <!-- Personal Details -->
+                        <div class="mb-8">
+                            <h4 class="text-sm font-bold text-gray-700 mb-4 border-b pb-2">Your Details</h4>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Full Name</label>
+                                    <input type="text"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-brand-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Email Address</label>
+                                    <input type="email"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-brand-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Phone Number</label>
+                                    <input type="tel"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-brand-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">PAN (for 80G Receipt)</label>
+                                    <input type="text"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-brand-500">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full py-4 bg-accent-600 hover:bg-accent-700 text-white font-bold rounded-lg shadow-lg transform transition hover:-translate-y-1">
+                            Proceed to Pay
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-3xl mx-auto px-4">
+            <h2 class="text-2xl font-bold text-center text-gray-900 mb-10">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h5 class="font-bold text-gray-800 mb-2">Is my donation tax-deductible?</h5>
+                    <p class="text-sm text-gray-600">Yes, all donations to Plebian Collective are 50% tax-exempt under
+                        Section 80G of the Income Tax Act.</p>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h5 class="font-bold text-gray-800 mb-2">Will I receive a receipt?</h5>
+                    <p class="text-sm text-gray-600">Yes, an automated receipt will be sent to your registered email
+                        address immediately after the successful transaction.</p>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h5 class="font-bold text-gray-800 mb-2">Can I donate specifically for a cause?</h5>
+                    <p class="text-sm text-gray-600">Absolutely. You can write to us at support@plebian.org after
+                        donating to specify if you want your funds used for a specific program (e.g., Education,
+                        Environment).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer id="contact" class="bg-gray-900 text-gray-300 py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-12">
+
+                <!-- About Column -->
+                <div>
+                    <div class="flex items-center gap-2 mb-4 text-white">
+                        <img src="images/logo.png" alt="Logo" class="w-10 h-10 object-contain">
+                        <span class="font-serif font-bold text-xl">Plebian Collective</span>
+                    </div>
+                    <p class="text-sm leading-relaxed mb-4">
+                        A registered non-profit collective dedicated to the promotion of commerce, art, science, and
+                        social welfare. We bridge the gap between resources and those in need.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-white transition" aria-label="Facebook"><i
+                                class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="hover:text-white transition" aria-label="Twitter"><i
+                                class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="hover:text-white transition" aria-label="LinkedIn"><i
+                                class="fa-brands fa-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="Main.html#about" class="hover:text-brand-400 transition">About Us</a></li>
+                        <li><a href="Main.html#programs" class="hover:text-brand-400 transition">Skill Development</a>
+                        </li>
+                        <li><a href="#" class="hover:text-brand-400 transition">Legal Aid</a></li>
+                        <li><a href="#" class="hover:text-brand-400 transition">Environmental Reports</a></li>
+                        <li><a href="#" class="hover:text-brand-400 transition">Donate</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Form (Visual Only) -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Get In Touch</h3>
+                    <form onsubmit="event.preventDefault(); alert('Thank you for connecting! This is a demo site.');"
+                        class="space-y-3">
+                        <input type="text" placeholder="Your Name"
+                            class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:border-brand-500 text-sm">
+                        <input type="email" placeholder="Your Email"
+                            class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:border-brand-500 text-sm">
+                        <textarea rows="2" placeholder="Message"
+                            class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:border-brand-500 text-sm"></textarea>
+                        <button type="submit"
+                            class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-2 rounded transition text-sm">Send
+                            Message</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-xs text-gray-500">
+                <p>&copy; 2023 Plebian Collective. All Rights Reserved.</p>
+                <p class="mt-2">Licensed under Section 8 of the Companies Act.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom JS -->
+    <script src="js/script.js" defer></script>
+</body>
+
+</html>

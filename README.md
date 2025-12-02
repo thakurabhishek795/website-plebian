@@ -1,6 +1,6 @@
-# Pleabian Collective Website
+# Plebian Collective Website
 
-A modern, responsive website for Pleabian Collective - a non-profit organization dedicated to societal betterment through employment, education, legal support, and environmental stewardship.
+A modern, responsive website for Plebian Collective - a non-profit organization dedicated to societal betterment through employment, education, legal support, and environmental stewardship.
 
 ## Features
 
@@ -33,7 +33,7 @@ A modern, responsive website for Pleabian Collective - a non-profit organization
 ## Folder Structure
 
 ```
-Website Pleabian/
+Website Plebian/
 ├── Main.html
 ├── Gallery.html
 ├── Donation.html
@@ -54,4 +54,4 @@ Website Pleabian/
 
 ## License
 
-© 2023 Pleabian Collective. All Rights Reserved.
+© 2023 Plebian Collective. All Rights Reserved.

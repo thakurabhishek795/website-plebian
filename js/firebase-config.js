@@ -1,13 +1,13 @@
 // Firebase Configuration
-// TODO: Replace with your actual Firebase config from Firebase Console
+// Website Plebian - Firebase Project
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID",
-    measurementId: "YOUR_MEASUREMENT_ID"
+    apiKey: "AIzaSyAXyFQ4YBiY28WNtEZnTQj4msdeCqOuUmc",
+    authDomain: "website-plebian.firebaseapp.com",
+    projectId: "website-plebian",
+    storageBucket: "website-plebian.firebasestorage.app",
+    messagingSenderId: "835415358294",
+    appId: "1:835415358294:web:f14461aaca61f7376a34f7",
+    measurementId: "G-37NYWWDBSP"
 };
 
 // Initialize Firebase

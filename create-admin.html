@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Admin User - Plebian Collective</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-user-shield text-purple-600 text-2xl"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-900">Create Admin User</h1>
+            <p class="text-gray-600 text-sm mt-2">Set up your admin account for the dashboard</p>
+        </div>
+
+        <!-- Instructions -->
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+            <div class="flex items-start">
+                <i class="fas fa-info-circle text-blue-500 mt-1 mr-3"></i>
+                <div class="text-sm text-blue-700">
+                    <p class="font-semibold mb-1">Before you start:</p>
+                    <ul class="list-disc ml-4 space-y-1">
+                        <li>Make sure Firebase is configured in <code
+                                class="bg-blue-100 px-1 rounded">firebase-config.js</code></li>
+                        <li>Email/Password auth must be enabled in Firebase Console</li>
+                        <li>Use a strong password (min 6 characters)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <form id="createAdminForm" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <i class="fas fa-envelope mr-2 text-gray-400"></i>Admin Email
+                </label>
+                <input type="email" id="adminEmail" placeholder="admin@example.com" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <i class="fas fa-lock mr-2 text-gray-400"></i>Password
+                </label>
+                <div class="relative">
+                    <input type="password" id="adminPassword" placeholder="••••••••" required minlength="6"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    <button type="button" onclick="togglePassword()"
+                        class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                        <i id="toggleIcon" class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">Minimum 6 characters</p>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <i class="fas fa-lock mr-2 text-gray-400"></i>Confirm Password
+                </label>
+                <input type="password" id="confirmPassword" placeholder="••••••••" required minlength="6"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+            </div>
+
+            <!-- Result Message -->
+            <div id="resultMessage" class="hidden"></div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submitBtn"
+                class="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold rounded-lg transition transform hover:scale-105 shadow-lg">
+                <i class="fas fa-user-plus mr-2"></i>Create Admin User
+            </button>
+        </form>
+
+        <!-- Security Notice -->
+        <div class="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <div class="flex items-start">
+                <i class="fas fa-exclamation-triangle text-yellow-600 mt-1 mr-3"></i>
+                <div class="text-xs text-yellow-800">
+                    <p class="font-semibold mb-1">Security Notice:</p>
+                    <p>Delete this file (<code class="bg-yellow-100 px-1 rounded">create-admin.html</code>) after
+                        creating your admin user to prevent unauthorized access.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="mt-6 text-center space-y-2">
+            <a href="admin.html" class="block text-sm text-purple-600 hover:text-purple-800">
+                <i class="fas fa-arrow-right mr-2"></i>Go to Admin Dashboard
+            </a>
+            <a href="ADMIN_USER_SETUP.md" class="block text-sm text-gray-600 hover:text-gray-800">
+                <i class="fas fa-book mr-2"></i>View Setup Guide
+            </a>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <!-- Firebase Configuration -->
+    <script src="js/firebase-config.js"></script>
+
+    <script>
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById('adminPassword');
+            const toggleIcon = document.getElementById('toggleIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Show message
+        function showMessage(message, type) {
+            const resultDiv = document.getElementById('resultMessage');
+            resultDiv.className = `p-4 rounded-lg ${type === 'success' ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`;
+
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            const iconColor = type === 'success' ? 'text-green-600' : 'text-red-600';
+            const textColor = type === 'success' ? 'text-green-800' : 'text-red-800';
+
+            resultDiv.innerHTML = `
+                <div class="flex items-start">
+                    <i class="fas ${icon} ${iconColor} mt-1 mr-3"></i>
+                    <div class="text-sm ${textColor}">
+                        ${message}
+                    </div>
+                </div>
+            `;
+            resultDiv.classList.remove('hidden');
+        }
+
+        // Handle form submission
+        document.getElementById('createAdminForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const submitBtn = document.getElementById('submitBtn');
+            const resultDiv = document.getElementById('resultMessage');
+
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match!', 'error');
+                return;
+            }
+
+            // Check if Firebase is initialized
+            if (!window.auth) {
+                showMessage('Firebase is not initialized. Please check your firebase-config.js file.', 'error');
+                return;
+            }
+
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Creating Admin User...';
+            resultDiv.classList.add('hidden');
+
+            try {
+                // Create user
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+
+                // Success message
+                showMessage(`
+                    <p class="font-semibold mb-2">✅ Admin user created successfully!</p>
+                    <p class="mb-2"><strong>Email:</strong> ${email}</p>
+                    <p class="mb-2"><strong>User ID:</strong> ${userCredential.user.uid}</p>
+                    <hr class="my-2 border-green-300">
+                    <p class="text-xs">
+                        <strong>Next Steps:</strong><br>
+                        1. Save your credentials securely<br>
+                        2. Delete this file (create-admin.html)<br>
+                        3. <a href="admin.html" class="underline font-semibold">Login to Admin Dashboard</a>
+                    </p>
+                `, 'success');
+
+                // Clear form
+                document.getElementById('createAdminForm').reset();
+
+                // Change button text
+                submitBtn.innerHTML = '<i class="fas fa-check mr-2"></i>Admin User Created!';
+                submitBtn.classList.remove('from-purple-600', 'to-indigo-600');
+                submitBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+
+            } catch (error) {
+                console.error('Error creating admin user:', error);
+
+                let errorMessage = 'An error occurred while creating the admin user.';
+
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessage = 'This email is already registered. Use a different email or reset the password in Firebase Console.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Invalid email address format.';
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage = 'Password is too weak. Use at least 6 characters.';
+                        break;
+                    case 'auth/operation-not-allowed':
+                        errorMessage = 'Email/Password authentication is not enabled. Please enable it in Firebase Console.';
+                        break;
+                    default:
+                        errorMessage = `Error: ${error.message}`;
+                }
+
+                showMessage(errorMessage, 'error');
+
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-user-plus mr-2"></i>Create Admin User';
+            }
+        });
+
+        // Check Firebase initialization on load
+        window.addEventListener('load', () => {
+            if (!window.auth) {
+                showMessage(`
+                    <p class="font-semibold mb-2">⚠️ Firebase Not Configured</p>
+                    <p class="text-xs">
+                        Please update your Firebase credentials in <code class="bg-red-100 px-1 rounded">js/firebase-config.js</code> before creating an admin user.
+                        <br><br>
+                        See <a href="FIREBASE_SETUP.md" class="underline font-semibold">FIREBASE_SETUP.md</a> for instructions.
+                    </p>
+                `, 'error');
+            }
+        });
+    </script>
+</body>
+
+</html>

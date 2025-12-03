@@ -360,34 +360,234 @@ async function loadGallery() {
     galleryGrid.innerHTML = '<p class="text-gray-500">Loading...</p>';
 
     try {
-        const result = await window.firebaseServices.getGalleryImages('all');
+        const snapshot = await db.collection('gallery_images')
+            .where('active', '==', true)
+            .orderBy('uploadedAt', 'desc')
+            .get();
 
-        if (!result.success || result.images.length === 0) {
-            galleryGrid.innerHTML = '<p class="text-gray-500">No images yet</p>';
+        if (snapshot.empty) {
+            galleryGrid.innerHTML = '<p class="text-gray-500">No images yet. Click "Upload Image" to add your first image!</p>';
             return;
         }
 
         galleryGrid.innerHTML = '';
-        result.images.forEach(image => {
+        snapshot.forEach(doc => {
+            const image = doc.data();
             const card = document.createElement('div');
-            card.className = 'bg-white rounded-lg shadow overflow-hidden';
+            card.className = 'bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition group relative';
             card.innerHTML = `
                 <img src="${image.url}" alt="${image.title}" class="w-full h-48 object-cover">
                 <div class="p-4">
                     <h4 class="font-bold text-sm text-gray-900 mb-1">${image.title}</h4>
-                    <p class="text-xs text-gray-500">${image.category}</p>
+                    <p class="text-xs text-gray-500 mb-2">
+                        <i class="fa-solid fa-tag mr-1"></i>${image.category}
+                    </p>
+                    ${image.description ? `<p class="text-xs text-gray-600 mb-2">${image.description}</p>` : ''}
+                    <div class="flex items-center justify-between text-xs text-gray-400">
+                        <span><i class="fa-solid fa-clock mr-1"></i>${formatTimestamp(image.uploadedAt)}</span>
+                        <button onclick="deleteImage('${doc.id}', '${image.storagePath}')" 
+                            class="text-red-600 hover:text-red-800 transition">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
                 </div>
             `;
             galleryGrid.appendChild(card);
         });
     } catch (error) {
         console.error('Error loading gallery:', error);
-        galleryGrid.innerHTML = '<p class="text-red-500">Error loading images</p>';
+        galleryGrid.innerHTML = '<p class="text-red-500">Error loading images. Please try again.</p>';
+    }
+}
+
+async function deleteImage(imageId, storagePath) {
+    if (!confirm('Are you sure you want to delete this image? This action cannot be undone.')) {
+        return;
+    }
+
+    try {
+        // Delete from Storage
+        const storageRef = storage.ref(storagePath);
+        await storageRef.delete();
+
+        // Delete from Firestore
+        await db.collection('gallery_images').doc(imageId).delete();
+
+        // Reload gallery
+        loadGallery();
+        loadOverviewStats();
+
+        alert('Image deleted successfully!');
+    } catch (error) {
+        console.error('Error deleting image:', error);
+        alert('Failed to delete image: ' + error.message);
     }
 }
 
 function showUploadModal() {
-    alert('Image upload modal would open here. In production, implement file upload to Firebase Storage.');
+    document.getElementById('uploadModal').classList.remove('hidden');
+    resetUploadForm();
+}
+
+function closeUploadModal() {
+    document.getElementById('uploadModal').classList.add('hidden');
+    resetUploadForm();
+}
+
+function resetUploadForm() {
+    document.getElementById('uploadForm').reset();
+    document.getElementById('imagePreview').classList.add('hidden');
+    document.getElementById('uploadProgress').classList.add('hidden');
+    document.getElementById('uploadError').classList.add('hidden');
+    document.getElementById('progressBar').style.width = '0%';
+    document.getElementById('uploadButton').disabled = false;
+}
+
+// Image file preview
+document.addEventListener('DOMContentLoaded', function () {
+    const imageFileInput = document.getElementById('imageFile');
+    if (imageFileInput) {
+        imageFileInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Validate file size (5MB max)
+                if (file.size > 5 * 1024 * 1024) {
+                    showUploadError('File size must be less than 5MB');
+                    e.target.value = '';
+                    return;
+                }
+
+                // Validate file type
+                if (!file.type.startsWith('image/')) {
+                    showUploadError('Please select a valid image file');
+                    e.target.value = '';
+                    return;
+                }
+
+                // Show preview
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('imagePreview').classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    // Upload form handler
+    const uploadForm = document.getElementById('uploadForm');
+    if (uploadForm) {
+        uploadForm.addEventListener('submit', handleImageUpload);
+    }
+});
+
+function showUploadError(message) {
+    const errorDiv = document.getElementById('uploadError');
+    errorDiv.textContent = message;
+    errorDiv.classList.remove('hidden');
+    setTimeout(() => {
+        errorDiv.classList.add('hidden');
+    }, 5000);
+}
+
+async function handleImageUpload(e) {
+    e.preventDefault();
+
+    const fileInput = document.getElementById('imageFile');
+    const file = fileInput.files[0];
+
+    if (!file) {
+        showUploadError('Please select an image file');
+        return;
+    }
+
+    const title = document.getElementById('imageTitle').value.trim();
+    const category = document.getElementById('imageCategory').value;
+    const description = document.getElementById('imageDescription').value.trim();
+
+    // Disable upload button
+    const uploadButton = document.getElementById('uploadButton');
+    uploadButton.disabled = true;
+    uploadButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Uploading...';
+
+    // Show progress
+    document.getElementById('uploadProgress').classList.remove('hidden');
+    document.getElementById('uploadError').classList.add('hidden');
+
+    try {
+        // Create a unique filename
+        const timestamp = Date.now();
+        const sanitizedTitle = title.toLowerCase().replace(/[^a-z0-9]/g, '-');
+        const fileExtension = file.name.split('.').pop();
+        const fileName = `${timestamp}-${sanitizedTitle}.${fileExtension}`;
+
+        // Upload to Firebase Storage in gallery folder
+        const storageRef = storage.ref(`gallery/${fileName}`);
+        const uploadTask = storageRef.put(file);
+
+        // Monitor upload progress
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                document.getElementById('progressBar').style.width = progress + '%';
+                document.getElementById('progressText').textContent = `Uploading... ${Math.round(progress)}%`;
+            },
+            (error) => {
+                console.error('Upload error:', error);
+                showUploadError('Upload failed: ' + error.message);
+                uploadButton.disabled = false;
+                uploadButton.innerHTML = '<i class="fa-solid fa-upload mr-2"></i>Upload';
+                document.getElementById('uploadProgress').classList.add('hidden');
+            },
+            async () => {
+                // Upload completed successfully
+                try {
+                    const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+
+                    // Save metadata to Firestore
+                    await db.collection('gallery_images').add({
+                        title: title,
+                        category: category,
+                        description: description,
+                        url: downloadURL,
+                        fileName: fileName,
+                        storagePath: `gallery/${fileName}`,
+                        uploadedBy: currentUser.uid,
+                        uploadedByEmail: currentUser.email,
+                        uploadedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        fileSize: file.size,
+                        fileType: file.type,
+                        active: true
+                    });
+
+                    // Success!
+                    document.getElementById('progressText').textContent = 'Upload complete!';
+                    document.getElementById('progressBar').classList.add('bg-green-600');
+
+                    // Close modal and refresh gallery after a short delay
+                    setTimeout(() => {
+                        closeUploadModal();
+                        loadGallery();
+                        loadOverviewStats(); // Update stats
+                    }, 1000);
+
+                } catch (error) {
+                    console.error('Error saving metadata:', error);
+                    showUploadError('Upload succeeded but failed to save metadata: ' + error.message);
+                    uploadButton.disabled = false;
+                    uploadButton.innerHTML = '<i class="fa-solid fa-upload mr-2"></i>Upload';
+                }
+            }
+        );
+
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        showUploadError('Upload failed: ' + error.message);
+        uploadButton.disabled = false;
+        uploadButton.innerHTML = '<i class="fa-solid fa-upload mr-2"></i>Upload';
+        document.getElementById('uploadProgress').classList.add('hidden');
+    }
 }
 
 // ==================== EVENTS ====================

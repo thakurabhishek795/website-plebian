@@ -66,6 +66,12 @@ function showDashboard(user) {
 
     // Load dashboard data
     loadDashboardData();
+    // Run a quick Firebase connectivity test for visibility
+    try {
+        testFirebaseConnection();
+    } catch (e) {
+        console.warn('testFirebaseConnection not available yet', e);
+    }
 }
 
 // ==================== NAVIGATION ====================
@@ -225,7 +231,6 @@ async function loadContacts() {
 
     try {
         const snapshot = await db.collection('contact_submissions')
-            .orderBy('timestamp', 'desc')
             .limit(50)
             .get();
 
@@ -235,14 +240,25 @@ async function loadContacts() {
         }
 
         tableBody.innerHTML = '';
-        snapshot.forEach(doc => {
-            const data = doc.data();
+
+        // Convert to array and sort client-side to handle missing timestamps
+        const docs = [];
+        snapshot.forEach(doc => docs.push({ id: doc.id, ...doc.data() }));
+
+        docs.sort((a, b) => {
+            const timeA = a.timestamp && a.timestamp.toMillis ? a.timestamp.toMillis() : 0;
+            const timeB = b.timestamp && b.timestamp.toMillis ? b.timestamp.toMillis() : 0;
+            return timeB - timeA;
+        });
+
+        docs.forEach(data => {
             const row = document.createElement('tr');
             row.className = 'hover:bg-gray-50';
             row.innerHTML = `
-                <td class="px-6 py-4 text-sm text-gray-900">${data.name}</td>
-                <td class="px-6 py-4 text-sm text-gray-600">${data.email}</td>
-                <td class="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">${data.message}</td>
+                <td class="px-6 py-4 text-sm text-gray-900">${data.name || 'No Name'}</td>
+                <td class="px-6 py-4 text-sm text-gray-600">${data.email || 'No Email'}</td>
+                <td class="px-6 py-4 text-sm text-gray-600">${data.phone || 'No Phone'}</td>
+                <td class="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">${data.message || ''}</td>
                 <td class="px-6 py-4 text-sm text-gray-500">${formatTimestamp(data.timestamp)}</td>
                 <td class="px-6 py-4">
                     <span class="px-2 py-1 text-xs rounded-full ${data.status === 'new' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
@@ -484,15 +500,47 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function showUploadError(message) {
     const errorDiv = document.getElementById('uploadError');
-    errorDiv.textContent = message;
+    // Accept either a string or an Error/object
+    if (message && typeof message === 'object') {
+        // Try to extract common fields
+        const code = message.code || message.errorCode || (message.name || 'Error');
+        const msg = message.message || message.toString();
+        errorDiv.innerHTML = `<strong>${code}:</strong> ${escapeHtml(msg)}`;
+        // Also include a collapsible JSON dump for debugging
+        try {
+            const dump = JSON.stringify(message, Object.keys(message), 2);
+            errorDiv.innerHTML += `<pre class="text-xs mt-2 bg-white p-2 rounded text-left overflow-auto">${escapeHtml(dump)}</pre>`;
+        } catch (e) {
+            // ignore
+        }
+    } else {
+        errorDiv.textContent = message || 'An unknown error occurred';
+    }
     errorDiv.classList.remove('hidden');
+    // Keep visible longer for debugging
     setTimeout(() => {
         errorDiv.classList.add('hidden');
-    }, 5000);
+    }, 15000);
+}
+
+// Small helper to escape HTML when inserting error text
+function escapeHtml(unsafe) {
+    return String(unsafe)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
 }
 
 async function handleImageUpload(e) {
     e.preventDefault();
+
+    // Ensure admin is signed in before uploading
+    if (!currentUser) {
+        showUploadError('You must be signed in to upload images. Please sign in and try again.');
+        return;
+    }
 
     const fileInput = document.getElementById('imageFile');
     const file = fileInput.files[0];
@@ -509,11 +557,13 @@ async function handleImageUpload(e) {
     // Disable upload button
     const uploadButton = document.getElementById('uploadButton');
     uploadButton.disabled = true;
-    uploadButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Uploading...';
+    uploadButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Starting...';
 
     // Show progress
     document.getElementById('uploadProgress').classList.remove('hidden');
     document.getElementById('uploadError').classList.add('hidden');
+    document.getElementById('progressBar').style.width = '0%';
+    document.getElementById('progressText').textContent = 'Initializing upload...';
 
     try {
         // Create a unique filename
@@ -522,44 +572,87 @@ async function handleImageUpload(e) {
         const fileExtension = file.name.split('.').pop();
         const fileName = `${timestamp}-${sanitizedTitle}.${fileExtension}`;
 
+        console.log('Starting upload for:', fileName);
+
         // Upload to Firebase Storage in gallery folder
         const storageRef = storage.ref(`gallery/${fileName}`);
         const uploadTask = storageRef.put(file);
 
+        // Timeout check (if stuck at 0% for more than 10 seconds)
+        const timeoutCheck = setTimeout(() => {
+            if (document.getElementById('progressBar').style.width === '0%') {
+                console.warn('Upload appears to be stuck at 0%');
+                showUploadError('Upload is stuck at 0%. This is usually a CORS or Permissions issue. Check Console (F12) for details.');
+            }
+        }, 10000);
+
         // Monitor upload progress
         uploadTask.on('state_changed',
             (snapshot) => {
+                clearTimeout(timeoutCheck); // Clear timeout on first progress
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload progress:', progress + '%');
+
                 document.getElementById('progressBar').style.width = progress + '%';
                 document.getElementById('progressText').textContent = `Uploading... ${Math.round(progress)}%`;
+                uploadButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Uploading...';
             },
             (error) => {
-                console.error('Upload error:', error);
-                showUploadError('Upload failed: ' + error.message);
+                clearTimeout(timeoutCheck);
+                console.error('Upload error object:', error);
+
+                let errorMessage = 'Upload failed: ' + error.message;
+
+                // Common error handling
+                if (error.code === 'storage/unauthorized') {
+                    errorMessage = 'Permission Denied: Check your Firebase Storage Rules.';
+                } else if (error.code === 'storage/canceled') {
+                    errorMessage = 'Upload canceled.';
+                } else if (error.code === 'storage/unknown') {
+                    errorMessage = 'Unknown error. Check browser console for CORS errors.';
+                }
+
+                showUploadError(errorMessage);
                 uploadButton.disabled = false;
                 uploadButton.innerHTML = '<i class="fa-solid fa-upload mr-2"></i>Upload';
                 document.getElementById('uploadProgress').classList.add('hidden');
             },
             async () => {
+                clearTimeout(timeoutCheck);
+                console.log('Upload complete, getting URL...');
+
                 // Upload completed successfully
                 try {
                     const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+                    console.log('Download URL obtained:', downloadURL);
 
                     // Save metadata to Firestore
-                    await db.collection('gallery_images').add({
-                        title: title,
-                        category: category,
-                        description: description,
-                        url: downloadURL,
-                        fileName: fileName,
-                        storagePath: `gallery/${fileName}`,
-                        uploadedBy: currentUser.uid,
-                        uploadedByEmail: currentUser.email,
-                        uploadedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        fileSize: file.size,
-                        fileType: file.type,
-                        active: true
-                    });
+                    console.log('Attempting to write to gallery_images collection...');
+                    try {
+                        const docRef = await db.collection('gallery_images').add({
+                            title: title,
+                            category: category,
+                            description: description,
+                            url: downloadURL,
+                            fileName: fileName,
+                            storagePath: `gallery/${fileName}`,
+                            uploadedBy: currentUser.uid,
+                            uploadedByEmail: currentUser.email,
+                            uploadedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            fileSize: file.size,
+                            fileType: file.type,
+                            active: true
+                        });
+                        console.log('Metadata saved to Firestore with docId:', docRef.id);
+                    } catch (firestoreError) {
+                        console.error('Firestore write error (gallery_images collection):', firestoreError);
+                        // Show detailed error to user
+                        showUploadError(firestoreError);
+                        uploadButton.disabled = false;
+                        uploadButton.innerHTML = '<i class="fa-solid fa-upload mr-2"></i>Upload';
+                        document.getElementById('uploadProgress').classList.add('hidden');
+                        return;
+                    }
 
                     // Success!
                     document.getElementById('progressText').textContent = 'Upload complete!';
@@ -582,8 +675,8 @@ async function handleImageUpload(e) {
         );
 
     } catch (error) {
-        console.error('Error uploading image:', error);
-        showUploadError('Upload failed: ' + error.message);
+        console.error('Error initiating upload:', error);
+        showUploadError('Failed to start upload: ' + error.message);
         uploadButton.disabled = false;
         uploadButton.innerHTML = '<i class="fa-solid fa-upload mr-2"></i>Upload';
         document.getElementById('uploadProgress').classList.add('hidden');
@@ -642,5 +735,44 @@ function formatTimestamp(timestamp) {
         });
     } catch (error) {
         return '-';
+    }
+}
+
+// ==================== DIAGNOSTICS ====================
+async function testFirebaseConnection() {
+    const statusDiv = document.getElementById('fbStatus');
+    const statusText = document.getElementById('fbStatusText');
+    if (!statusDiv || !statusText) return;
+
+    statusDiv.classList.remove('hidden');
+    statusDiv.querySelector('#fbStatusText').className = 'p-3 rounded-lg bg-yellow-50 text-yellow-800';
+    statusText.textContent = 'Checking Firebase connectivity...';
+
+    try {
+        // Try a lightweight read from Firestore
+        const snapshot = await db.collection('contact_submissions').limit(1).get();
+        statusText.textContent = `Connected to Firestore — contact_submissions accessible (documents: ${snapshot.size})`;
+        statusText.className = 'p-3 rounded-lg bg-green-50 text-green-800';
+    } catch (err) {
+        console.error('Firestore connectivity test failed:', err);
+        statusText.textContent = 'Firestore read failed: ' + (err && err.message ? err.message : String(err));
+        statusText.className = 'p-3 rounded-lg bg-red-50 text-red-800';
+    }
+
+    // Quick Storage check (non-destructive): check if storage is defined
+    try {
+        if (typeof storage === 'undefined' || !storage) {
+            const el = document.createElement('div');
+            el.textContent = 'Firebase Storage not initialized in this environment.';
+            el.className = 'text-sm text-gray-600 mt-1';
+            statusDiv.appendChild(el);
+        } else {
+            const el = document.createElement('div');
+            el.textContent = 'Firebase Storage appears available (upload errors may still be due to rules or bucket mismatch).';
+            el.className = 'text-sm text-gray-600 mt-1';
+            statusDiv.appendChild(el);
+        }
+    } catch (err) {
+        console.warn('Storage check error', err);
     }
 }

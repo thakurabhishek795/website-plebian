@@ -3,13 +3,16 @@
 // ==================== CONTACT FORM ====================
 async function submitContactForm(formData) {
     try {
+        console.log('Attempting to add document to contact_submissions...');
         const docRef = await db.collection('contact_submissions').add({
             name: formData.name,
             email: formData.email,
+            phone: formData.phone || '',
             message: formData.message,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             status: 'new'
         });
+        console.log('Document added successfully with ID:', docRef.id);
 
         console.log('Contact form submitted with ID:', docRef.id);
         return { success: true, id: docRef.id };

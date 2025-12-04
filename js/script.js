@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Get form elements
             const nameInput = document.getElementById('contactName');
             const emailInput = document.getElementById('contactEmail');
+            const phoneInput = document.getElementById('contactPhone');
             const messageInput = document.getElementById('contactMessage');
             const submitButton = document.getElementById('contactSubmit');
             const messageDiv = document.getElementById('contactFormMessage');
@@ -33,12 +34,13 @@ document.addEventListener('DOMContentLoaded', function () {
             const formData = {
                 name: nameInput.value.trim(),
                 email: emailInput.value.trim(),
+                phone: phoneInput.value.trim(),
                 message: messageInput.value.trim()
             };
 
-            // Validate
+            // Validate required fields
             if (!formData.name || !formData.email || !formData.message) {
-                showMessage(messageDiv, 'Please fill in all fields', 'error');
+                showMessage(messageDiv, 'Please fill in all required fields', 'error');
                 return;
             }
 

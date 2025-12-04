@@ -1,0 +1,31 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "**/*.md",
+      "ADMIN_*.md",
+      "CHECK_*.md",
+      "DEBUG_*.md",
+      "FIREBASE_*.md",
+      "GALLERY_*.md",
+      "GET_*.md",
+      "IMPLEMENTATION_*.md",
+      "test-*.html",
+      "firestore.rules",
+      "firestore.indexes.json"
+    ],
+    "rewrites": [
+      {
+        "source": "/",
+        "destination": "/Main.html"
+      }
+    ]
+  }
+}

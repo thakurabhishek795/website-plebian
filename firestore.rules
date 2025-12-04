@@ -1,0 +1,76 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Admin Users
+    match /admin_users/{userId} {
+      allow read: if request.auth != null;
+      allow create, update, delete: if request.auth != null;
+    }
+    
+    // Contact Submissions
+    match /contact_submissions/{document} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+    
+    // Donations
+    match /donations/{document} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+    
+    // Newsletter Subscribers
+    match /newsletter_subscribers/{document} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+    
+    // Gallery Images
+    match /gallery_images/{document} {
+      allow read: if resource.data.visible == true;
+      allow create, update, delete: if request.auth != null;
+    }
+    
+    // Events
+    match /events/{document} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+    
+    // Event Registrations
+    match /event_registrations/{document} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+    
+    // Volunteers
+    match /volunteers/{document} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+    
+    // Programs
+    match /programs/{document} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+    
+    // Site Settings
+    match /site_settings/{document} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    // Analytics Events
+    match /analytics_events/{document} {
+      allow create: if true;
+      allow read, delete: if request.auth != null;
+    }
+    
+    // Deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

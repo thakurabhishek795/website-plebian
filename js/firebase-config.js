@@ -4,7 +4,7 @@ const firebaseConfig = {
     apiKey: "AIzaSyAXyFQ4YBiY28WNtEZnTQj4msdeCqOuUmc",
     authDomain: "website-plebian.firebaseapp.com",
     projectId: "website-plebian",
-    storageBucket: "website-plebian.firebasestorage.app",
+    storageBucket: "website-plebian.appspot.com",
     messagingSenderId: "835415358294",
     appId: "1:835415358294:web:f14461aaca61f7376a34f7",
     measurementId: "G-37NYWWDBSP"

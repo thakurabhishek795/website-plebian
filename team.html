@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 
 <head>
@@ -8,36 +8,94 @@
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:ital,wght@0,700;1,400&display=swap"
+    rel="stylesheet">
+
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- Tailwind Config -->
   <script src="js/tailwind.config.js"></script>
 </head>
 
-<body class="bg-gray-50 text-gray-700 font-sans">
-  <!-- Nav (small header) -->
-  <nav class="bg-white shadow-md">
+<body class="font-sans text-gray-700 bg-gray-50 antialiased">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-md fixed w-full z-50 transition-all duration-300" id="navbar">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-20">
-        <a href="Main.html" class="flex items-center gap-2">
-          <img src="images/logo.png" alt="Plebian Logo" class="w-10 h-10">
-          <span class="font-bold text-lg text-brand-900">Plebian Collective</span>
-        </a>
-        <div class="hidden md:flex items-center space-x-6">
-          <a href="Main.html" class="text-gray-600 hover:text-brand-600">Home</a>
-          <a href="team.html" class="text-brand-600 font-semibold">Meet the Team</a>
-          <a href="Gallery.html" class="text-gray-600 hover:text-brand-600">Gallery</a>
-          <a href="Donation.html" class="px-4 py-2 bg-brand-600 text-white rounded-full">Donate</a>
+      <div class="flex justify-between h-20">
+        <div class="flex items-center">
+          <!-- Logo -->
+          <a href="Main.html" class="flex-shrink-0 flex items-center gap-2">
+            <img src="images/logo.png" alt="Plebian Collective Logo" class="w-12 h-12 object-contain">
+            <span class="font-serif font-bold text-2xl text-brand-900">Plebian Collective</span>
+          </a>
+        </div>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="Main.html#home" class="text-gray-600 hover:text-brand-600 font-medium transition">Home</a>
+          <a href="Main.html#about" class="text-gray-600 hover:text-brand-600 font-medium transition">About Us</a>
+          <a href="Main.html#programs" class="text-gray-600 hover:text-brand-600 font-medium transition">Our
+            Programs</a>
+          <a href="Main.html#impact" class="text-gray-600 hover:text-brand-600 font-medium transition">Impact</a>
+          <a href="Gallery.html" class="text-gray-600 hover:text-brand-600 font-medium transition">Gallery</a>
+          <a href="team.html"
+            class="text-brand-600 hover:text-brand-600 font-medium transition border-b-2 border-brand-600">Team</a>
+          <a href="Donation.html"
+            class="px-5 py-2.5 bg-brand-600 text-white font-semibold rounded-full hover:bg-brand-700 transition shadow-lg shadow-brand-500/30">
+            Donate Now
+          </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="flex items-center md:hidden">
+          <button onclick="toggleMenu()" class="text-gray-600 hover:text-brand-600 focus:outline-none"
+            aria-label="Toggle menu">
+            <i class="fa-solid fa-bars text-2xl"></i>
+          </button>
         </div>
       </div>
     </div>
+
+    <!-- Mobile Dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <a href="Main.html#home"
+          class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">Home</a>
+        <a href="Main.html#about"
+          class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">About
+          Us</a>
+        <a href="Main.html#programs"
+          class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">Our
+          Programs</a>
+        <a href="Donation.html"
+          class="block px-3 py-2 text-base font-medium text-brand-600 font-bold bg-brand-50 rounded-md">Donate
+          Now</a>
+        <a href="Gallery.html"
+          class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">Gallery</a>
+        <a href="team.html"
+          class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">Team</a>
+      </div>
+    </div>
   </nav>
+
+  <!-- Spacer for fixed nav -->
+  <div class="h-20"></div>
 
   <!-- Hero -->
   <header class="bg-white py-20">
     <div class="max-w-4xl mx-auto text-center px-4">
       <h1 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-4">Meet The Team</h1>
-      <p class="text-lg text-gray-600 max-w-2xl mx-auto">We’re a small team of devoted leaders, advisors, and volunteers working to make a positive impact.</p>
-      <p class="text-sm text-brand-600 mt-4 uppercase font-semibold tracking-wider">Motto: Community first — Dignity, Justice, Progress</p>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">We’re a small team of devoted leaders, advisors, and volunteers
+        working to make a positive impact.</p>
+      <p class="text-sm text-brand-600 mt-4 uppercase font-semibold tracking-wider">Motto: Community first — Dignity,
+        Justice, Progress</p>
     </div>
   </header>
 
@@ -50,13 +108,16 @@
           <h2 class="text-2xl font-bold text-gray-900 mb-6">Directors</h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div class="bg-white p-6 rounded-2xl shadow">
-              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=60" alt="Director 1" class="w-28 h-28 rounded-full object-cover mx-auto mb-4">
+              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=60"
+                alt="Director 1" class="w-28 h-28 rounded-full object-cover mx-auto mb-4">
               <h3 class="text-lg font-semibold text-gray-900 text-center">Amit Sharma</h3>
               <p class="text-sm text-gray-500 text-center">Co-Director</p>
-              <p class="text-sm text-gray-600 mt-3">Amit leads the community engagement and grassroots outreach programs.</p>
+              <p class="text-sm text-gray-600 mt-3">Amit leads the community engagement and grassroots outreach
+                programs.</p>
             </div>
             <div class="bg-white p-6 rounded-2xl shadow">
-              <img src="https://images.unsplash.com/photo-1545996124-3faf4c8b6d6c?auto=format&fit=crop&w=600&q=60" alt="Director 2" class="w-28 h-28 rounded-full object-cover mx-auto mb-4">
+              <img src="https://images.unsplash.com/photo-1545996124-3faf4c8b6d6c?auto=format&fit=crop&w=600&q=60"
+                alt="Director 2" class="w-28 h-28 rounded-full object-cover mx-auto mb-4">
               <h3 class="text-lg font-semibold text-gray-900 text-center">Priya Singh</h3>
               <p class="text-sm text-gray-500 text-center">Co-Director</p>
               <p class="text-sm text-gray-600 mt-3">Priya oversees programs, partnerships and operational planning.</p>
@@ -67,7 +128,8 @@
         <!-- Legal Advisor -->
         <aside class="bg-white p-6 rounded-2xl shadow">
           <h3 class="text-lg font-semibold text-gray-900">Legal Advisory</h3>
-          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=60" alt="Legal Advisor" class="w-24 h-24 rounded-full object-cover mx-auto my-4">
+          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=60"
+            alt="Legal Advisor" class="w-24 h-24 rounded-full object-cover mx-auto my-4">
           <h4 class="text-md font-semibold text-center text-gray-900">Advocate R.K. Mehta</h4>
           <p class="text-sm text-gray-600 text-center mb-4">Legal Help Advisor</p>
           <p class="text-sm text-gray-600">Provides pro-bono legal counsel and guidance on compliance.</p>
@@ -79,22 +141,26 @@
         <h2 class="text-2xl font-bold text-gray-900 mb-6">Volunteers</h2>
         <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
           <div class="bg-white p-4 rounded-2xl shadow text-center">
-            <img src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=600&q=60" alt="Volunteer" class="w-20 h-20 rounded-full object-cover mx-auto mb-3">
+            <img src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=600&q=60"
+              alt="Volunteer" class="w-20 h-20 rounded-full object-cover mx-auto mb-3">
             <p class="text-sm font-semibold">Shreya</p>
             <p class="text-xs text-gray-500">Community Programs</p>
           </div>
           <div class="bg-white p-4 rounded-2xl shadow text-center">
-            <img src="https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&w=600&q=60" alt="Volunteer" class="w-20 h-20 rounded-full object-cover mx-auto mb-3">
+            <img src="https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&w=600&q=60"
+              alt="Volunteer" class="w-20 h-20 rounded-full object-cover mx-auto mb-3">
             <p class="text-sm font-semibold">Ramesh</p>
             <p class="text-xs text-gray-500">Volunteer Coordinator</p>
           </div>
           <div class="bg-white p-4 rounded-2xl shadow text-center">
-            <img src="https://images.unsplash.com/photo-1545996124-3faf4c8b6d6c?auto=format&fit=crop&w=600&q=60" alt="Volunteer" class="w-20 h-20 rounded-full object-cover mx-auto mb-3">
+            <img src="https://images.unsplash.com/photo-1545996124-3faf4c8b6d6c?auto=format&fit=crop&w=600&q=60"
+              alt="Volunteer" class="w-20 h-20 rounded-full object-cover mx-auto mb-3">
             <p class="text-sm font-semibold">Nisha</p>
             <p class="text-xs text-gray-500">Education Lead</p>
           </div>
           <div class="bg-white p-4 rounded-2xl shadow text-center">
-            <img src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=600&q=60" alt="Volunteer" class="w-20 h-20 rounded-full object-cover mx-auto mb-3">
+            <img src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=600&q=60"
+              alt="Volunteer" class="w-20 h-20 rounded-full object-cover mx-auto mb-3">
             <p class="text-sm font-semibold">Karan</p>
             <p class="text-xs text-gray-500">Logistics</p>
           </div>
@@ -104,13 +170,83 @@
     </div>
   </main>
 
-  <footer class="bg-white border-t mt-12 py-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-500">
-      © Plebian Collective — All rights reserved
+  <!-- Footer / Contact -->
+  <footer id="contact" class="bg-gray-900 text-gray-300 py-12 border-t border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-3 gap-12">
+
+        <!-- About Column -->
+        <div>
+          <div class="flex items-center gap-2 mb-4 text-white">
+            <img src="images/logo.png" alt="Logo" class="w-10 h-10 object-contain">
+            <span class="font-serif font-bold text-xl">Plebian Collective</span>
+          </div>
+          <p class="text-sm leading-relaxed mb-4">
+            A registered non-profit collective dedicated to the promotion of commerce, art, science, and
+            social welfare. We bridge the gap between resources and those in need.
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="hover:text-white transition" aria-label="Facebook"><i
+                class="fa-brands fa-facebook"></i></a>
+            <a href="#" class="hover:text-white transition" aria-label="Twitter"><i
+                class="fa-brands fa-twitter"></i></a>
+            <a href="#" class="hover:text-white transition" aria-label="LinkedIn"><i
+                class="fa-brands fa-linkedin"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-white font-bold text-lg mb-4">Quick Links</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="Main.html#about" class="hover:text-brand-400 transition">About Us</a></li>
+            <li><a href="Main.html#programs" class="hover:text-brand-400 transition">Skill Development</a></li>
+            <li><a href="#" class="hover:text-brand-400 transition">Legal Aid</a></li>
+            <li><a href="#" class="hover:text-brand-400 transition">Environmental Reports</a></li>
+            <li><a href="Donation.html" class="hover:text-brand-400 transition">Donate</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact Form -->
+        <div>
+          <h3 class="text-white font-bold text-lg mb-4">Get In Touch</h3>
+          <form id="contactForm" class="space-y-3">
+            <input type="text" id="contactName" name="name" placeholder="Your Name" required
+              class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:border-brand-500 text-sm">
+            <input type="email" id="contactEmail" name="email" placeholder="Your Email" required
+              class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:border-brand-500 text-sm">
+            <input type="tel" id="contactPhone" name="phone" placeholder="Phone Number (Optional)"
+              class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:border-brand-500 text-sm">
+            <textarea rows="2" id="contactMessage" name="message" placeholder="Message" required
+              class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:border-brand-500 text-sm"></textarea>
+            <button type="submit" id="contactSubmit"
+              class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-2 rounded transition text-sm">Send
+              Message</button>
+            <div id="contactFormMessage" class="text-sm text-center hidden"></div>
+          </form>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-800 mt-12 pt-8 text-center text-xs text-gray-500">
+        <p>&copy; 2023 Plebian Collective. All Rights Reserved.</p>
+        <p class="mt-2">Licensed under Section 8 of the Companies Act.</p>
+      </div>
     </div>
   </footer>
 
-  <script src="js/script.js"></script>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+
+  <!-- Firebase Configuration -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/firebase-services.js"></script>
+
+  <!-- Custom JS -->
+  <script src="js/script.js" defer></script>
 </body>
 
 </html>

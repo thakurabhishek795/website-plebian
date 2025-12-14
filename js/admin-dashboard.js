@@ -377,7 +377,6 @@ async function loadGallery() {
 
     try {
         const snapshot = await db.collection('gallery_images')
-            .where('active', '==', true)
             .orderBy('uploadedAt', 'desc')
             .get();
 
@@ -392,7 +391,10 @@ async function loadGallery() {
             const card = document.createElement('div');
             card.className = 'bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition group relative';
             card.innerHTML = `
-                <img src="${image.url}" alt="${image.title}" class="w-full h-48 object-cover">
+                <div class="relative">
+                    <img src="${image.url}" alt="${image.title}" class="w-full h-48 object-cover ${!image.active ? 'opacity-50 grayscale' : ''}">
+                    ${!image.active ? '<div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">Inactive</div>' : ''}
+                </div>
                 <div class="p-4">
                     <h4 class="font-bold text-sm text-gray-900 mb-1">${image.title}</h4>
                     <p class="text-xs text-gray-500 mb-2">

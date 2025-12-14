@@ -28,7 +28,8 @@ service cloud.firestore {
     
     // Gallery Images
     match /gallery_images/{document} {
-      allow read: if resource.data.visible == true;
+      // Public can read if active is true, Admins can read everything
+      allow read: if (resource.data.active == true) || (request.auth != null);
       allow create, update, delete: if request.auth != null;
     }
     
